@@ -55,6 +55,40 @@ package com.unhurdle
 			}
 			return false;
 		}
+		public function requiresCore():Boolean{
+			var i:int;
+			var len:int = constructorParams.length;
+			for(i=0;i<len;i++){
+				if(constructorParams[i].requiresCore()){
+					return true;
+				}
+			}
+			len = classProperties.length;
+			for(i=0;i<len;i++){
+				if(classProperties[i].requiresCore()){
+					return true;
+				}
+			}
+			len = classMethods.length;
+			for(i=0;i<len;i++){
+				if(classMethods[i].requiresCore()){
+					return true;
+				}
+			}
+			len = instanceProperties.length;
+			for(i=0;i<len;i++){
+				if(instanceProperties[i].requiresCore()){
+					return true;
+				}
+			}
+			len = instanceMethods.length;
+			for(i=0;i<len;i++){
+				if(instanceMethods[i].requiresCore()){
+					return true;
+				}
+			}
+			return false;
+		}
 		
 	}
 }

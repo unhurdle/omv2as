@@ -1,5 +1,7 @@
 package com.unhurdle
 {
+	import com.unhurdle.utils.GeneralUtils;
+
 	public class OMVParameter
 	{
 		public function OMVParameter(xml:XML)
@@ -12,5 +14,8 @@ package com.unhurdle
 		public var description:String;
 		public var type:String;
 		public var value:String;
+		public function requiresCore():Boolean{
+			return GeneralUtils.isCore(type);
+		}
 	}
 }

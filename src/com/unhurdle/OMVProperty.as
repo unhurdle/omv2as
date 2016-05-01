@@ -1,5 +1,7 @@
 package com.unhurdle
 {
+	import com.unhurdle.utils.GeneralUtils;
+
 	public class OMVProperty
 	{
 		public function OMVProperty(property:XML)
@@ -16,6 +18,10 @@ package com.unhurdle
 		public var longDescription:String;
 		
 		public var readOnly:Boolean = false;
+		
+		public function requiresCore():Boolean{
+			return GeneralUtils.isCore(type);
+		}
 
 	}
 }

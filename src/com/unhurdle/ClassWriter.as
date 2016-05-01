@@ -17,6 +17,11 @@ package com.unhurdle
 			var superClass:OMVClass;
 			_buffer.length = 0;
 			addHeader();
+			//improt core if necessary
+			
+			if(_packagePath != "com.adobe.core" && classObj.requiresCore()){
+				addCoreImport();
+			}
 			//class header
 			_buffer.push("	public class ");
 			_buffer.push(classObj.name);
@@ -156,6 +161,11 @@ package com.unhurdle
 			_buffer.push(_packagePath);
 			_buffer.push(File.lineEnding);
 			_buffer.push("{");
+			_buffer.push(File.lineEnding);
+		}
+		private function addCoreImport():void{
+			_buffer.push("	import com.adobe.core.*;");
+			_buffer.push(File.lineEnding);
 		}
 		private function addFooter():void{
 			_buffer.push("}");
