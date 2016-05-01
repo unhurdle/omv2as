@@ -23,8 +23,15 @@ package com.unhurdle
 				var params:XMLList = xml.parameters.parameter;
 				var i:int;
 				var len:int = params.length();
+				// force optional on parameters after optional ones.
+				var optional:Boolean = false;
 				for(i=0;i<len;i++){
-					retVal.parameters.push(ParameterParser.parse(params[i]));
+					var param:OMVParameter = ParameterParser.parse(params[i]);
+					if(optional){
+						param.optional = true;
+					}
+					optional = param.optional;
+					retVal.parameters.push(param);
 				}
 			}
 			return retVal;
