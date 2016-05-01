@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx" showStatusBar="false">
+	
+	<fx:Script>
+		<![CDATA[
+			import com.unhurdle.ClassWriter;
+			import com.unhurdle.OMVClass;
+			import com.unhurdle.OMVReader;
+			
+			import spark.components.Alert;
+			[Bindable]private var omvFileName:String = "";
+			private var omvFile:File;
+			private function pickOmv():void{
+				omvFile = new File();
+				omvFile.addEventListener(Event.SELECT, omvSelected);
+				omvFile.browseForOpen("Select an OMV file",[new FileFilter("XML", "*.xml")]);
+			}
+			private function omvSelected(ev:Event):void{
+				omvFileName =  omvFile.name;
+			}
+			[Bindable]private var fName:String = "";
+			private var folder:File;
+			private function pickFolder():void{
+				folder = new File();
+				folder.addEventListener(Event.SELECT, dirSelected);
+				folder.browseForDirectory("Select a Directory");
+			}
+			private function dirSelected(ev:Event):void{
+				fName = folder.name;
+			}
+			
+			private function createActionScript():void{
+				if(!omvFile || !folder || !packageId.text){
+					Alert.show("Please select OMV File, Output Folder and package name");
+					return;
+				}
+				var reader:OMVReader = new OMVReader(omvFile);
+				reader.parseFile();
+				
+				var writer:ClassWriter = new ClassWriter(folder,packageId.text);
+				var i:int;
+				var len:int = reader.classArray.length;
+				for(i=0;i<len;i++){
+					writer.writeClass(reader.classArray[i] as OMVClass);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<s:HGroup height="100%" width="100%" horizontalAlign="center">
+		
+	<s:VGroup padding="5">
+		<s:HGroup verticalAlign="middle">
+			<s:Button label="Pick an omv file" click="pickOmv()" width="120"/>
+			<s:Label id="omvName" text="{omvFileName}"/>
+		</s:HGroup>
+		<s:HGroup verticalAlign="middle">
+			<s:Button label="Pick a Folder" click="pickFolder()" width="120"/>
+			<s:Label id="folderName" text="{fName}"/>
+		</s:HGroup>
+		<s:HGroup verticalAlign="middle">
+			<s:Label text="Package Name:" width="120" textAlign="right"/>
+			<s:TextInput id="packageId" text="com.adobe.indesign"/>
+		</s:HGroup>
+		<s:Rect height="30"/>
+		<s:Button label="Create ActionScript Classes" click="createActionScript()" width="260" height="50"/>
+	</s:VGroup>
+	</s:HGroup>
+</s:WindowedApplication>
