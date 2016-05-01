@@ -33,41 +33,63 @@ package com.unhurdle
 			
 			//constructor (if necessary)
 			addConstructor(classObj);
-			
 			var i:int;
 			var len:int;
-			//static methods
-			len = classObj.classMethods.length;
-			for(i=0;i<len;i++){
-				if(superClass && superClass.hasMethod(classObj.classMethods[i].name)){
-					continue;
-				}
-				MethodWriter.writeToBuffer(classObj.classMethods[i],_buffer);
-			}
-			//static properties
-			len = classObj.classProperties.length;
-			for(i=0;i<len;i++){
-				if(superClass && superClass.hasProperty(classObj.classProperties[i].name)){
-					continue;
-				}
-				PropertyWriter.writeToBuffer(classObj.classProperties[i],_buffer);
-			}
-			//instance methods
-			len = classObj.instanceMethods.length;
-			for(i=0;i<len;i++){
-				if(superClass && superClass.hasMethod(classObj.instanceMethods[i].name)){
-					continue;
-				}
-				MethodWriter.writeToBuffer(classObj.instanceMethods[i],_buffer);
-			}
+			
+			if(classObj.enum){
+				addEnumMethods(classObj);
+				len = classObj.classProperties.length;
+				for(i=0;i<len;i++){
+					var prop:OMVProperty = classObj.classProperties[i];
+					_buffer.push("		");
+						_buffer.push("static public const ");
+					_buffer.push(prop.name);
+					_buffer.push(":");
+					_buffer.push(classObj.name);
+					_buffer.push(" = new ");
+					_buffer.push(classObj.name);
+					_buffer.push("(");
+					_buffer.push(prop.value);
+					_buffer.push(");");
+					_buffer.push(File.lineEnding);
 
-			//instance properties
-			len = classObj.instanceProperties.length;
-			for(i=0;i<len;i++){
-				if(superClass && superClass.hasProperty(classObj.instanceProperties[i].name)){
-					continue;
 				}
-				PropertyWriter.writeToBuffer(classObj.instanceProperties[i],_buffer);
+
+			} else {
+				
+				//static methods
+				len = classObj.classMethods.length;
+				for(i=0;i<len;i++){
+					if(superClass && superClass.hasMethod(classObj.classMethods[i].name)){
+						continue;
+					}
+					MethodWriter.writeToBuffer(classObj.classMethods[i],_buffer);
+				}
+				//static properties
+				len = classObj.classProperties.length;
+				for(i=0;i<len;i++){
+					if(superClass && superClass.hasProperty(classObj.classProperties[i].name)){
+						continue;
+					}
+					PropertyWriter.writeToBuffer(classObj.classProperties[i],_buffer);
+				}
+				//instance methods
+				len = classObj.instanceMethods.length;
+				for(i=0;i<len;i++){
+					if(superClass && superClass.hasMethod(classObj.instanceMethods[i].name)){
+						continue;
+					}
+					MethodWriter.writeToBuffer(classObj.instanceMethods[i],_buffer);
+				}
+				
+				//instance properties
+				len = classObj.instanceProperties.length;
+				for(i=0;i<len;i++){
+					if(superClass && superClass.hasProperty(classObj.instanceProperties[i].name)){
+						continue;
+					}
+					PropertyWriter.writeToBuffer(classObj.instanceProperties[i],_buffer);
+				}
 			}
 			
 			//class footer
@@ -134,6 +156,13 @@ package com.unhurdle
 		}
 		private function addFooter():void{
 			_buffer.push("}");
+
+		}
+		private function addEnumMethods(classObj:OMVClass):void{
+			_buffer.push("		public function ");
+			_buffer.push(classObj.name);
+			_buffer.push("(value:*){}");
+			_buffer.push(File.lineEnding);
 
 		}
 		private var _buffer:Array = [];

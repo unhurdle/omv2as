@@ -30,7 +30,12 @@ package com.unhurdle
 			
 			buffer.push(")");
 			buffer.push(":");
-			buffer.push(method.returnType);
+			// getElements has the Object type listed in the OMV, but it returns an Array
+			if(method.name == "getElements"){
+				buffer.push("Array");
+			} else {
+				buffer.push(method.returnType);
+			}
 			if(method.returnType == "void"){
 				buffer.push("{}");
 			} else if(method.returnType == "Boolean"){
