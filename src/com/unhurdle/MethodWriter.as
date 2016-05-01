@@ -40,6 +40,8 @@ package com.unhurdle
 				buffer.push("{}");
 			} else if(method.returnType == "Boolean"){
 				buffer.push("{return false;}");
+			}else if(method.returnType == "int" ||method.returnType == "Number"){
+				buffer.push("{return 0;}");
 			} else {
 				buffer.push("{return null;}");
 			}

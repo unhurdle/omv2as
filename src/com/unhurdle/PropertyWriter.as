@@ -27,7 +27,7 @@ package com.unhurdle
 				if(property.type == "String"){
 					buffer.push('"');
 				} else if(!val){
-					if(property.type == "Number"){
+					if(property.type == "Number" || property.type == "int"){
 						val = "0";
 					} else if(property.type == "Boolean"){
 						val = "false";

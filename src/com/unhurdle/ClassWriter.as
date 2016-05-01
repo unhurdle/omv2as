@@ -22,6 +22,9 @@ package com.unhurdle
 			_buffer.push(classObj.name);
 			if(classObj.superclass){
 				superClass = OMVReader.getClass(classObj.superclass);
+				if(superClass && superClass.enum){
+					superClass = null;
+				}
 				if(superClass){
 					_buffer.push(" extends ");
 					_buffer.push(classObj.superclass);

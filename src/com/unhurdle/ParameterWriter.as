@@ -12,6 +12,8 @@ package com.unhurdle
 			if(param.optional){
 				if(param.type == "Boolean"){
 					buffer.push("=false");
+				} else if(param.type == "int" || param.type == "Number"){
+					buffer.push("=0");
 				} else {
 					buffer.push("=null");
 				}
