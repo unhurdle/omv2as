@@ -33,6 +33,8 @@ package com.unhurdle
 			buffer.push(method.returnType);
 			if(method.returnType == "void"){
 				buffer.push("{}");
+			} else if(method.returnType == "Boolean"){
+				buffer.push("{return false;}");
 			} else {
 				buffer.push("{return null;}");
 			}

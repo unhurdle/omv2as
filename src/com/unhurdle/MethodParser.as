@@ -22,7 +22,7 @@ package com.unhurdle
 			if(xml.parameters.length()){
 				var params:XMLList = xml.parameters.parameter;
 				var i:int;
-				var len:int;
+				var len:int = params.length();
 				for(i=0;i<len;i++){
 					retVal.parameters.push(ParameterParser.parse(params[i]));
 				}

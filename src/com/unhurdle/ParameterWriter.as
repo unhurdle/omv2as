@@ -10,7 +10,11 @@ package com.unhurdle
 			buffer.push(":");
 			buffer.push(param.type);
 			if(param.optional){
-				buffer.push("=null");
+				if(param.type == "Boolean"){
+					buffer.push("=false");
+				} else {
+					buffer.push("=null");
+				}
 				//TODO: add better default values based on type
 				
 			}
