@@ -1,5 +1,7 @@
 package com.unhurdle
 {
+	import com.unhurdle.utils.GeneralUtils;
+
 	public class ParameterParser
 	{
 		public function ParameterParser()
@@ -8,7 +10,7 @@ package com.unhurdle
 		
 		static public function parse(xml:XML):OMVParameter{
 			var retVal:OMVParameter = new OMVParameter(xml);
-			retVal.name = xml.@name;
+			retVal.name = GeneralUtils.legalizeName(xml.@name);
 			retVal.description = xml.shortdesc.text();
 			retVal.type = OMVType.getType(xml.datatype.type.toString());
 			retVal.optional = xml.@optional.length() && xml.@optional.toString() == "true";
